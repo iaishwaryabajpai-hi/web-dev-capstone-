@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Sampark</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .profile-card .profile-pic {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-box h2 {
+            color: var(--accent-blue);
+            font-size: 24px;
+        }
+
+        .stat-box p {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .child-superpowers {
+            background: var(--bg-panel);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .child-superpowers h3 {
+            color: var(--accent-blue);
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+
+        .skill-bar-container {
+            margin-bottom: 20px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .skill-track {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue-dim);
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html" class="logo">Sampark</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#">Add Post</a>
+            <a href="messages.html">Messages</a>
+            <a href="profile.html" style="color: var(--accent-blue);">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Profile Layout -->
+    <div class="profile-layout">
+        
+        <!-- Parent Card -->
+        <div class="glass-panel profile-card">
+            <div class="profile-pic" style="background-image: url('assets/user_avatar.png'); background-size: cover; background-position: center; margin-left: auto; margin-right: auto;"></div>
+            <h2 style="margin-bottom: 5px;">Aishwarya</h2>
+            <p style="color: var(--text-secondary);">Parent of Rohan (Grade 4)</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <h2>42</h2>
+                    <p>Connections</p>
+                </div>
+                <div class="stat-box">
+                    <h2>15</h2>
+                    <p>Posts</p>
+                </div>
+            </div>
+
+            <button class="post-btn" style="width: 100%; margin-top: 25px; float: none;">Edit Profile</button>
+        </div>
+
+        <!-- Child Superpowers / Academic Stats -->
+        <div class="child-superpowers">
+            <h3>Rohan's Superpowers 🌟</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">A holistic view of Rohan's strengths and current focus areas at school.</p>
+
+            <div class="skill-bar-container">
+                <div class="skill-name">
+                    <span>Creative Arts 🎨</span>
+                    <span style="color: var(--accent-blue);">90%</span>
+                </div>
+                <div class="skill-track">
+                    <div class="skill-fill" style="width: 90%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-container">
+                <div class="skill-name">
+                    <span>Mathematics 🧮</span>
+                    <span style="color: var(--accent-blue);">75%</span>
+                </div>
+                <div class="skill-track">
+                    <div class="skill-fill" style="width: 75%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-container">
+                <div class="skill-name">
+                    <span>Teamwork & Sports ⚽</span>
+                    <span style="color: var(--accent-blue);">85%</span>
+                </div>
+                <div class="skill-track">
+                    <div class="skill-fill" style="width: 85%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar-container">
+                <div class="skill-name">
+                    <span>Science & Discovery 🔬</span>
+                    <span style="color: var(--accent-blue);">95%</span>
+                </div>
+                <div class="skill-track">
+                    <div class="skill-fill" style="width: 95%; background: linear-gradient(90deg, #00E5FF, #007BFF);"></div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; font-size: 18px;">Recent Achievements</h3>
+            <ul style="list-style: none; margin-top: 15px;">
+                <li style="padding: 10px 0; border-bottom: 1px solid var(--border-glass);">🏆 Won 1st place in the Inter-School Science Fair.</li>
+                <li style="padding: 10px 0; border-bottom: 1px solid var(--border-glass);">🌟 Completed the Advanced Art Workshop.</li>
+                <li style="padding: 10px 0;">📚 Read 15 books this semester.</li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>

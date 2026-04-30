@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | Sampark</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .messaging-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 0;
+            max-width: 1200px;
+            margin: 40px auto;
+            height: 70vh;
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--bg-panel);
+            backdrop-filter: blur(12px);
+        }
+
+        .contacts-sidebar {
+            border-right: 1px solid var(--border-glass);
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contacts-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-glass);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-glass);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .contact-item:hover, .contact-item.active {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .contact-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #333;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .contact-info h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .contact-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.received {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.sent {
+            background: rgba(0, 229, 255, 0.15);
+            border: 1px solid var(--border-accent);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-input input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 12px 20px;
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .messaging-layout {
+                grid-template-columns: 1fr;
+            }
+            .contacts-sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html" class="logo">Sampark</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#">Add Post</a>
+            <a href="messages.html" style="color: var(--accent-blue);">Messages</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Messaging Layout -->
+    <div class="messaging-layout">
+        
+        <!-- Contacts Sidebar -->
+        <div class="contacts-sidebar">
+            <div class="contacts-header">
+                Recent Conversations
+            </div>
+            <div class="contact-item active">
+                <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
+                <div class="contact-info">
+                    <h4>Priya Sharma</h4>
+                    <p>Thanks for the science notes!</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-avatar" style="background-image: url('assets/post_avatar_2.png'); background-size: cover; background-position: center;"></div>
+                <div class="contact-info">
+                    <h4>Rahul Verma</h4>
+                    <p>Are we still on for the playdate?</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                <div class="contact-info">
+                    <h4>Ms. Kapoor (Teacher)</h4>
+                    <p>Rohan has been doing great!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
+                <h4>Priya Sharma</h4>
+            </div>
+            
+            <div class="chat-messages">
+                <div class="message received">
+                    Hi Aishwarya! Did Rohan happen to bring home an extra blue folder today?
+                </div>
+                <div class="message sent">
+                    Hey Priya! Let me check his bag real quick.
+                </div>
+                <div class="message sent">
+                    Yes, he did! He must have picked it up by mistake during the art class.
+                </div>
+                <div class="message received">
+                    Oh thank goodness! Could I pick it up tomorrow morning at drop-off?
+                </div>
+                <div class="message sent">
+                    Absolutely, I'll hand it to you then!
+                </div>
+                <div class="message received">
+                    Thanks for the science notes too, by the way! Lifesaver.
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input type="text" placeholder="Type a message...">
+                <button class="post-btn" style="float: none; margin: 0; padding: 10px 20px;">Send</button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
