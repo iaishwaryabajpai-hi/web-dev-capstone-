@@ -92,16 +92,19 @@ def create_post():
     try:
         data = request.get_json()
 
-        if not data or not data.get("text"):
-            return jsonify({"error": "text is required"}), 400
+        text = data.get("text", "")
+        image_url = data.get("image_url", None)
+
+        if not text and not image_url:
+            return jsonify({"error": "text or image is required"}), 400
 
         new_post = {
             "author": data.get("author", "Aishwarya"),
-            "text": data["text"],
+            "text": text,
             "time": "Just now",
             "likes": 0,
             "comments": 0,
-            "image_url": data.get("image_url", None)
+            "image_url": image_url
         }
 
         response = supabase.table("posts").insert(new_post).execute()

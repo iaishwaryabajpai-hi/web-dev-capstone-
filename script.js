@@ -107,7 +107,13 @@ async function handlePostSubmit(e) {
     let input = document.getElementById("postInput");
     let fileInput = document.getElementById("postImage");
 
-    if (!input.value) return;
+    let textVal = input.value ? input.value.trim() : "";
+    let hasImage = fileInput && fileInput.files && fileInput.files[0];
+
+    if (!textVal && !hasImage) {
+        alert("Please enter text or select an image to post.");
+        return;
+    }
 
     let imageUrl = null;
 
@@ -140,7 +146,7 @@ async function handlePostSubmit(e) {
     // Now create the post
     try {
         let postBody = {
-            text: input.value,
+            text: textVal,
             author: "Aishwarya"
         };
 
