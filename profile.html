@@ -213,46 +213,71 @@
 
         <!-- Child Superpowers / Academic Stats -->
         <div class="child-superpowers">
-            <h3>Rohan's Superpowers 🌟</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0;">Rohan's Superpowers 🌟</h3>
+                <button onclick="showEditScores()" style="background: none; border: 1px solid var(--accent-blue); color: var(--accent-blue); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 12px;">Update Scores</button>
+            </div>
             <p style="color: var(--text-secondary); margin-bottom: 30px;">A holistic view of Rohan's strengths and current focus areas at school.</p>
 
             <div class="skill-bar-container">
                 <div class="skill-name">
                     <span>Creative Arts 🎨</span>
-                    <span style="color: var(--accent-blue);">90%</span>
+                    <span id="score-arts-text" style="color: var(--accent-blue);">90%</span>
                 </div>
                 <div class="skill-track">
-                    <div class="skill-fill" style="width: 90%;"></div>
+                    <div id="score-arts-fill" class="skill-fill" style="width: 90%;"></div>
                 </div>
             </div>
 
             <div class="skill-bar-container">
                 <div class="skill-name">
                     <span>Mathematics 🧮</span>
-                    <span style="color: var(--accent-blue);">75%</span>
+                    <span id="score-math-text" style="color: var(--accent-blue);">75%</span>
                 </div>
                 <div class="skill-track">
-                    <div class="skill-fill" style="width: 75%;"></div>
+                    <div id="score-math-fill" class="skill-fill" style="width: 75%;"></div>
                 </div>
             </div>
 
             <div class="skill-bar-container">
                 <div class="skill-name">
                     <span>Teamwork & Sports ⚽</span>
-                    <span style="color: var(--accent-blue);">85%</span>
+                    <span id="score-sports-text" style="color: var(--accent-blue);">85%</span>
                 </div>
                 <div class="skill-track">
-                    <div class="skill-fill" style="width: 85%;"></div>
+                    <div id="score-sports-fill" class="skill-fill" style="width: 85%;"></div>
                 </div>
             </div>
 
             <div class="skill-bar-container">
                 <div class="skill-name">
                     <span>Science & Discovery 🔬</span>
-                    <span style="color: var(--accent-blue);">95%</span>
+                    <span id="score-science-text" style="color: var(--accent-blue);">95%</span>
                 </div>
                 <div class="skill-track">
-                    <div class="skill-fill" style="width: 95%; background: linear-gradient(90deg, #00E5FF, #007BFF);"></div>
+                    <div id="score-science-fill" class="skill-fill" style="width: 95%; background: linear-gradient(90deg, #00E5FF, #007BFF);"></div>
+                </div>
+            </div>
+
+            <!-- Edit Scores Form (hidden by default) -->
+            <div class="edit-form" id="editScoresForm" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="margin-bottom: 15px; color: var(--accent-blue);">Update Subject Scores (0-100)</h4>
+                
+                <label style="font-size: 12px; color: #888;">Creative Arts</label>
+                <input type="number" id="inputArts" min="0" max="100" placeholder="90">
+                
+                <label style="font-size: 12px; color: #888;">Mathematics</label>
+                <input type="number" id="inputMath" min="0" max="100" placeholder="75">
+                
+                <label style="font-size: 12px; color: #888;">Teamwork & Sports</label>
+                <input type="number" id="inputSports" min="0" max="100" placeholder="85">
+                
+                <label style="font-size: 12px; color: #888;">Science & Discovery</label>
+                <input type="number" id="inputScience" min="0" max="100" placeholder="95">
+
+                <div class="btn-row" style="margin-top: 15px;">
+                    <button class="post-btn" style="float: none; flex: 1;" onclick="submitEditScores()">Save Scores</button>
+                    <button class="btn-cancel" onclick="hideEditScores()">Cancel</button>
                 </div>
             </div>
 
@@ -291,6 +316,21 @@
                 document.getElementById("profileRole").innerText = profile.role;
                 document.getElementById("profileConnections").innerText = profile.connections;
                 document.getElementById("profilePostsCount").innerText = profile.posts_count;
+
+                if (profile.scores) {
+                    let scores = profile.scores;
+                    document.getElementById("score-arts-text").innerText = scores.arts + "%";
+                    document.getElementById("score-arts-fill").style.width = scores.arts + "%";
+
+                    document.getElementById("score-math-text").innerText = scores.math + "%";
+                    document.getElementById("score-math-fill").style.width = scores.math + "%";
+
+                    document.getElementById("score-sports-text").innerText = scores.sports + "%";
+                    document.getElementById("score-sports-fill").style.width = scores.sports + "%";
+
+                    document.getElementById("score-science-text").innerText = scores.science + "%";
+                    document.getElementById("score-science-fill").style.width = scores.science + "%";
+                }
             }
         }
 
@@ -326,6 +366,49 @@
             if (response.status === 200) {
                 hideEditForm();
                 loadProfile();
+            }
+        }
+
+        // Show/Hide Edit Scores Form
+        function showEditScores() {
+            document.getElementById("editScoresForm").style.display = "block";
+            
+            // Pre-fill inputs from current UI
+            document.getElementById("inputArts").value = parseInt(document.getElementById("score-arts-text").innerText);
+            document.getElementById("inputMath").value = parseInt(document.getElementById("score-math-text").innerText);
+            document.getElementById("inputSports").value = parseInt(document.getElementById("score-sports-text").innerText);
+            document.getElementById("inputScience").value = parseInt(document.getElementById("score-science-text").innerText);
+        }
+
+        function hideEditScores() {
+            document.getElementById("editScoresForm").style.display = "none";
+        }
+
+        // UPDATE — Save Scores to Supabase
+        async function submitEditScores() {
+            let arts = parseInt(document.getElementById("inputArts").value) || 0;
+            let math = parseInt(document.getElementById("inputMath").value) || 0;
+            let sports = parseInt(document.getElementById("inputSports").value) || 0;
+            let science = parseInt(document.getElementById("inputScience").value) || 0;
+
+            let scoresData = {
+                arts: arts,
+                math: math,
+                sports: sports,
+                science: science
+            };
+
+            let response = await fetch(API_URL + "/profile/" + currentProfileId, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ scores: scoresData })
+            });
+
+            if (response.ok) {
+                hideEditScores();
+                loadProfile();
+            } else {
+                alert("Failed to save scores.");
             }
         }
 

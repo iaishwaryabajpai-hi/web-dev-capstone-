@@ -281,6 +281,8 @@ def update_profile(profile_id):
             update_data["name"] = data["name"]
         if "role" in data:
             update_data["role"] = data["role"]
+        if "scores" in data:
+            update_data["scores"] = data["scores"]
 
         if not update_data:
             return jsonify({"error": "nothing to update"}), 400
