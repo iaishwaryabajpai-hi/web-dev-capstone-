@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .messaging-layout {
-            display: grid;
-            grid-template-columns: 350px 1fr;
+            display: flex;
+            flex-direction: row;
             gap: 0;
             max-width: 1200px;
             margin: 40px auto;
@@ -20,10 +20,10 @@
             border-radius: 16px;
             overflow: hidden;
             background: var(--bg-panel);
-            backdrop-filter: blur(12px);
         }
 
         .contacts-sidebar {
+            width: 350px;
             border-right: 1px solid var(--border-glass);
             background: rgba(0, 0, 0, 0.3);
             display: flex;
@@ -44,7 +44,6 @@
             gap: 15px;
             border-bottom: 1px solid var(--border-glass);
             cursor: pointer;
-            transition: background 0.3s ease;
         }
 
         .contact-item:hover, .contact-item.active {
@@ -67,15 +66,12 @@
         .contact-info p {
             font-size: 12px;
             color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
         }
 
         .chat-area {
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
 
         .chat-header {
@@ -101,7 +97,6 @@
             padding: 12px 18px;
             border-radius: 18px;
             font-size: 14px;
-            line-height: 1.5;
         }
 
         .message.received {
@@ -136,7 +131,6 @@
             font-family: var(--font-family);
             font-size: 14px;
             outline: none;
-            transition: border-color 0.3s ease;
         }
 
         .chat-input input:focus {
@@ -145,7 +139,7 @@
 
         @media (max-width: 768px) {
             .messaging-layout {
-                grid-template-columns: 1fr;
+                flex-direction: column;
             }
             .contacts-sidebar {
                 display: none;
@@ -156,82 +150,72 @@
 <body>
 
     <!-- Navigation Bar -->
-    <nav>
-        <a href="index.html" class="logo">Sampark</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#">Add Post</a>
-            <a href="messages.html" style="color: var(--accent-blue);">Messages</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Sampark</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="messages.html" style="color: var(--accent-blue);"><b>Messages</b></a>
+                <a href="profile.html">Profile</a>
+            </div>
+        </nav>
+    </header>
 
     <!-- Messaging Layout -->
-    <div class="messaging-layout">
-        
-        <!-- Contacts Sidebar -->
-        <div class="contacts-sidebar">
-            <div class="contacts-header">
-                Recent Conversations
-            </div>
-            <div class="contact-item active">
-                <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
-                <div class="contact-info">
+    <main>
+        <div class="messaging-layout">
+
+            <!-- Contacts Sidebar -->
+            <aside class="contacts-sidebar">
+                <div class="contacts-header">
+                    <strong>Recent Conversations</strong>
+                </div>
+                <div class="contact-item active">
+                    <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
+                    <div class="contact-info">
+                        <h4>Priya Sharma</h4>
+                        <p>Thanks for the science notes!</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-avatar" style="background-image: url('assets/post_avatar_2.png'); background-size: cover; background-position: center;"></div>
+                    <div class="contact-info">
+                        <h4>Rahul Verma</h4>
+                        <p>Are we still on for the playdate?</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="contact-info">
+                        <h4>Ms. Kapoor (Teacher)</h4>
+                        <p>Rohan has been doing great!</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <div class="chat-header">
+                    <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
                     <h4>Priya Sharma</h4>
-                    <p>Thanks for the science notes!</p>
+                </div>
+
+                <!-- Messages rendered dynamically by JS -->
+                <div class="chat-messages" id="chatMessages"></div>
+
+                <div class="chat-input">
+                    <input type="text" id="msgInput" placeholder="Type a message..." onkeyup="handleMsgKeyup(event)">
+                    <button class="post-btn" style="float: none; margin: 0; padding: 10px 20px;" onclick="handleSendMessage()">Send</button>
                 </div>
             </div>
-            <div class="contact-item">
-                <div class="contact-avatar" style="background-image: url('assets/post_avatar_2.png'); background-size: cover; background-position: center;"></div>
-                <div class="contact-info">
-                    <h4>Rahul Verma</h4>
-                    <p>Are we still on for the playdate?</p>
-                </div>
-            </div>
-            <div class="contact-item">
-                <div class="contact-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
-                <div class="contact-info">
-                    <h4>Ms. Kapoor (Teacher)</h4>
-                    <p>Rohan has been doing great!</p>
-                </div>
-            </div>
+
         </div>
+    </main>
 
-        <!-- Chat Area -->
-        <div class="chat-area">
-            <div class="chat-header">
-                <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
-                <h4>Priya Sharma</h4>
-            </div>
-            
-            <div class="chat-messages">
-                <div class="message received">
-                    Hi Aishwarya! Did Rohan happen to bring home an extra blue folder today?
-                </div>
-                <div class="message sent">
-                    Hey Priya! Let me check his bag real quick.
-                </div>
-                <div class="message sent">
-                    Yes, he did! He must have picked it up by mistake during the art class.
-                </div>
-                <div class="message received">
-                    Oh thank goodness! Could I pick it up tomorrow morning at drop-off?
-                </div>
-                <div class="message sent">
-                    Absolutely, I'll hand it to you then!
-                </div>
-                <div class="message received">
-                    Thanks for the science notes too, by the way! Lifesaver.
-                </div>
-            </div>
+    <footer>
+        <p style="text-align: center; padding: 20px; color: #666; font-size: 13px;">© 2026 Sampark. All rights reserved.</p>
+    </footer>
 
-            <div class="chat-input">
-                <input type="text" placeholder="Type a message...">
-                <button class="post-btn" style="float: none; margin: 0; padding: 10px 20px;">Send</button>
-            </div>
-        </div>
-
-    </div>
-
+    <script src="script.js"></script>
 </body>
 </html>

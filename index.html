@@ -12,100 +12,77 @@
 <body>
 
     <!-- Navigation Bar -->
-    <nav>
-        <a href="#" class="logo">Sampark</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#">Add Post</a>
-            <a href="messages.html">Messages</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Sampark</a>
+            <div class="nav-links">
+                <a href="index.html"><b>Home</b></a>
+                <a href="messages.html">Messages</a>
+                <a href="profile.html">Profile</a>
+            </div>
+        </nav>
+    </header>
 
     <!-- Main Content Area -->
-    <div class="container">
-        
-        <!-- Left Sidebar: Parent Profile -->
-        <div class="sidebar-left">
-            <div class="profile-pic" style="background-image: url('assets/user_avatar.png'); background-size: cover; background-position: center;"></div>
-            <h3>Aishwarya</h3>
-            <p style="color: #666; margin-top: 5px;">Parent of Rohan (Grade 4)</p>
-            <br>
-            <h4>My Groups</h4>
-            <ul style="list-style-type: none; margin-top: 10px; color: #555;">
-                <li>📚 4th Grade Parents</li>
-                <li>⚽ School Soccer Team</li>
-                <li>🎨 Art Club</li>
-            </ul>
-        </div>
+    <main>
+        <div class="container">
 
-        <!-- Middle: Social Feed -->
-        <div class="feed">
-            
-            <!-- Create a New Post -->
-            <div class="create-post">
-                <h4>Share an update or ask a question...</h4>
+            <!-- Left Sidebar: Parent Profile -->
+            <aside class="sidebar-left">
+                <div class="profile-pic" style="background-image: url('assets/user_avatar.png'); background-size: cover; background-position: center;"></div>
+                <h3>Aishwarya</h3>
+                <p style="color: #666; margin-top: 5px;">Parent of Rohan (Grade 4)</p>
                 <br>
-                <form id="postForm">
-                    <textarea rows="3" placeholder="What's on your mind regarding your child's learning?"></textarea>
-                    <button type="button" class="post-btn">Post</button>
-                </form>
+                <h4>My Groups</h4>
+                <ul style="list-style-type: none; margin-top: 10px; color: #555;">
+                    <li>📚 4th Grade Parents</li>
+                    <li>⚽ School Soccer Team</li>
+                    <li>🎨 Art Club</li>
+                </ul>
+            </aside>
+
+            <!-- Middle: Social Feed -->
+            <div class="feed">
+
+                <!-- Create a New Post -->
+                <div class="create-post">
+                    <h4>Share an update or ask a question...</h4>
+                    <br>
+                    <form id="postForm" onsubmit="handlePostSubmit(event)">
+                        <textarea id="postInput" rows="3" placeholder="What's on your mind regarding your child's learning?"></textarea>
+                        <button type="submit" class="post-btn">Post</button>
+                    </form>
+                </div>
+
+                <!-- Posts will be rendered here dynamically by JS -->
+                <div id="postsContainer"></div>
+
             </div>
 
-            <!-- Example Post 1 -->
-            <div class="post">
-                <div class="post-header">
-                    <div class="post-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
-                    <div>
-                        <div class="post-author">Priya Sharma</div>
-                        <div class="post-time">2 hours ago</div>
-                    </div>
+            <!-- Right Sidebar: Upcoming Events -->
+            <aside class="sidebar-right">
+                <h3>Upcoming Events</h3>
+                <div class="event">
+                    <h4>Annual Sports Day</h4>
+                    <p style="font-size: 13px; color: #666;">Friday, 10:00 AM</p>
                 </div>
-                <div class="post-content">
-                    <p>Does anyone have the science project guidelines for Ms. Kapoor's class? Rohan misplaced his sheet today. Any help is appreciated!</p>
+                <div class="event">
+                    <h4>PTA Meeting</h4>
+                    <p style="font-size: 13px; color: #666;">Monday, 4:00 PM</p>
                 </div>
-                <br>
-                <button style="background: none; border: none; color: #2e86de; cursor: pointer;">Like (5)</button>
-                <button style="background: none; border: none; color: #666; cursor: pointer; margin-left: 15px;">Comment (2)</button>
-            </div>
-
-            <!-- Example Post 2 -->
-            <div class="post">
-                <div class="post-header">
-                    <div class="post-avatar" style="background-image: url('assets/post_avatar_2.png'); background-size: cover; background-position: center;"></div>
-                    <div>
-                        <div class="post-author">Rahul Verma</div>
-                        <div class="post-time">5 hours ago</div>
-                    </div>
+                <div class="event" style="border-bottom: none;">
+                    <h4>Science Fair</h4>
+                    <p style="font-size: 13px; color: #666;">Next Wed, 9:00 AM</p>
                 </div>
-                <div class="post-content">
-                    <p>So proud of all the kids who performed at the annual day rehearsal today! They have put in so much hard work. Can't wait for the final event! 🌟</p>
-                </div>
-                <br>
-                <button style="background: none; border: none; color: #2e86de; cursor: pointer;">Like (12)</button>
-                <button style="background: none; border: none; color: #666; cursor: pointer; margin-left: 15px;">Comment (4)</button>
-            </div>
+            </aside>
 
         </div>
+    </main>
 
-        <!-- Right Sidebar: Upcoming Events -->
-        <div class="sidebar-right">
-            <h3>Upcoming Events</h3>
-            <div class="event">
-                <h4>Annual Sports Day</h4>
-                <p style="font-size: 13px; color: #666;">Friday, 10:00 AM</p>
-            </div>
-            <div class="event">
-                <h4>PTA Meeting</h4>
-                <p style="font-size: 13px; color: #666;">Monday, 4:00 PM</p>
-            </div>
-            <div class="event" style="border-bottom: none;">
-                <h4>Science Fair</h4>
-                <p style="font-size: 13px; color: #666;">Next Wed, 9:00 AM</p>
-            </div>
-        </div>
+    <footer>
+        <p style="text-align: center; padding: 20px; color: #666; font-size: 13px;">© 2026 Sampark. All rights reserved.</p>
+    </footer>
 
-    </div>
-
+    <script src="script.js"></script>
 </body>
 </html>
