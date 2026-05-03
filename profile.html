@@ -10,140 +10,155 @@
     <link rel="stylesheet" href="style1.css">
     <style>
         .profile-layout {
-            display: flex;
-            flex-direction: row;
-            gap: 30px;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 5%;
-        }
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 5%;
+}
 
-        .profile-card {
-            text-align: center;
-            width: 350px;
-            flex-shrink: 0;
-        }
+/* Card */
+.profile-card {
+    text-align: center;
+    width: 350px;
+    flex-shrink: 0;
+}
 
-        .profile-card .profile-pic {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
-        }
+.profile-card .profile-pic {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+}
 
-        .stats-grid {
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            margin-top: 25px;
-        }
+/* Stats */
+.stats-grid {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-        .stat-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            flex: 1;
-        }
+.stat-box {
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-glass);
+    background: rgba(0,0,0,0.4);
+    text-align: center;
+}
 
-        .stat-box h2 {
-            color: var(--accent-blue);
-            font-size: 24px;
-        }
+.stat-box h2 {
+    color: var(--accent-blue);
+}
 
-        .stat-box p {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 5px;
-        }
+.stat-box p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
 
-        .child-superpowers {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-glass);
-            border-radius: 16px;
-            padding: 30px;
-            flex: 1;
-        }
+/* Right panel */
+.child-superpowers {
+    flex: 1;
+    padding: 30px;
+    border-radius: 16px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-glass);
+}
 
-        .child-superpowers h3 {
-            color: var(--accent-blue);
-            margin-bottom: 25px;
-            font-size: 22px;
-        }
+.child-superpowers h3 {
+    color: var(--accent-blue);
+    margin-bottom: 20px;
+}
 
-        .skill-bar-container {
-            margin-bottom: 20px;
-        }
+/* Skills */
+.skill-bar-container {
+    margin-bottom: 18px;
+}
 
-        .skill-name {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 15px;
-        }
+.skill-name {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
 
-        .skill-track {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
+.skill-track {
+    height: 10px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.1);
+    overflow: hidden;
+}
 
-        .skill-fill {
-            height: 100%;
-            background: var(--accent-blue);
-            border-radius: 5px;
-        }
+.skill-fill {
+    height: 100%;
+    background: var(--accent-blue);
+}
 
-        /* Edit form styles */
-        .edit-form {
-            display: none;
-            margin-top: 20px;
-        }
+/* Edit form */
+.edit-form {
+    display: none;
+    margin-top: 20px;
+}
 
-        .edit-form input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 12px 15px;
-            color: var(--text-primary);
-            font-family: var(--font-family);
-            font-size: 15px;
-            outline: none;
-            margin-bottom: 12px;
-        }
+.edit-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border-glass);
+    background: rgba(0,0,0,0.5);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+}
 
-        .edit-form input:focus {
-            border-color: var(--accent-blue);
-        }
+.edit-form input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
 
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
+.btn-row {
+    display: flex;
+    gap: 10px;
+}
 
-        .btn-cancel {
-            background: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-            padding: 10px 24px;
-            border-radius: 20px;
-            font-family: var(--font-family);
-            font-weight: 600;
-            cursor: pointer;
-            flex: 1;
-        }
+.btn-cancel {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: none;
+    color: #fff;
+    cursor: pointer;
+}
 
-        @media (max-width: 768px) {
-            .profile-layout {
-                flex-direction: column;
-            }
-            .profile-card {
-                width: 100%;
-            }
-        }
+/* Buttons */
+.full-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Achievements list */
+.achievements {
+    list-style: none;
+    margin-top: 15px;
+}
+
+.achievements li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.achievements li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-layout {
+        flex-direction: column;
+    }
+    .profile-card {
+        width: 100%;
+    }
+}
     </style>
 </head>
 <body>
