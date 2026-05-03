@@ -246,15 +246,55 @@ function renderMessages(arr) {
     chat.innerHTML = "";
 
     arr.forEach(msg => {
+        let wrapper = document.createElement("div");
+        wrapper.style.display = "flex";
+        wrapper.style.alignItems = "center";
+        wrapper.style.gap = "8px";
+        wrapper.style.alignSelf = msg.type === "sent" ? "flex-end" : "flex-start";
+
         let div = document.createElement("div");
         div.className = "message " + msg.type;
-
         div.innerText = msg.text;
 
-        chat.appendChild(div);
+        let delBtn = document.createElement("button");
+        delBtn.innerHTML = "✕";
+        delBtn.style.background = "none";
+        delBtn.style.border = "none";
+        delBtn.style.color = "rgba(255,255,255,0.4)";
+        delBtn.style.cursor = "pointer";
+        delBtn.style.fontSize = "10px";
+        delBtn.onclick = () => handleDeleteMessage(msg.id);
+
+        if (msg.type === "sent") {
+            wrapper.appendChild(delBtn);
+            wrapper.appendChild(div);
+        } else {
+            wrapper.appendChild(div);
+            wrapper.appendChild(delBtn);
+        }
+
+        chat.appendChild(wrapper);
     });
 
     chat.scrollTop = chat.scrollHeight;
+}
+
+// 🔹 Delete message
+async function handleDeleteMessage(msgId) {
+    let confirmed = confirm("Delete this message?");
+    if (!confirmed) return;
+
+    try {
+        let res = await fetch(API_URL + "/messages/" + msgId, {
+            method: "DELETE"
+        });
+
+        if (res.ok) {
+            loadMessages();
+        }
+    } catch (err) {
+        console.error("Failed to delete message:", err);
+    }
 }
 
 // 🔹 Load messages (server-side filtered by user)
