@@ -1,221 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages | Sampark</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style1.css">
-    <style>
-        .messaging-layout {
-            display: flex;
-            flex-direction: row;
-            gap: 0;
-            max-width: 1200px;
-            margin: 40px auto;
-            height: 70vh;
-            border: 1px solid var(--border-glass);
-            border-radius: 16px;
-            overflow: hidden;
-            background: var(--bg-panel);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messages | Sampark</title>
 
-        .contacts-sidebar {
-            width: 350px;
-            border-right: 1px solid var(--border-glass);
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        .contacts-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-glass);
-            font-size: 18px;
-            font-weight: 600;
-        }
+<link rel="stylesheet" href="style1.css">
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            gap: 15px;
-            border-bottom: 1px solid var(--border-glass);
-            cursor: pointer;
-        }
+<style>
+.messaging-layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    height: 70vh;
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-panel);
+}
 
-        .contact-item:hover, .contact-item.active {
-            background: rgba(0, 229, 255, 0.1);
-        }
+/* Sidebar */
+.contacts-sidebar {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-glass);
+    background: rgba(0,0,0,0.3);
+}
 
-        .contact-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #333;
-            border: 1px solid var(--accent-blue);
-        }
+.contacts-header {
+    padding: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-glass);
+}
 
-        .contact-info h4 {
-            font-size: 15px;
-            margin-bottom: 4px;
-        }
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-glass);
+    cursor: pointer;
+}
 
-        .contact-info p {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
+.contact-item:hover,
+.contact-item.active {
+    background: rgba(0,229,255,0.1);
+}
 
-        .chat-area {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
+.contact-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--accent-blue);
+    overflow: hidden;
+}
 
-        .chat-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-glass);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.4);
-        }
+/* 👇 NEW: real image */
+.contact-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+/* Chat */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-        .message {
-            max-width: 70%;
-            padding: 12px 18px;
-            border-radius: 18px;
-            font-size: 14px;
-        }
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    border-bottom: 1px solid var(--border-glass);
+    background: rgba(0,0,0,0.4);
+}
 
-        .message.received {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
+.chat-messages {
+    flex: 1;
+    padding: 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
-        .message.sent {
-            background: rgba(0, 229, 255, 0.15);
-            border: 1px solid var(--border-accent);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
+/* Messages */
+.message {
+    max-width: 70%;
+    padding: 10px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+}
 
-        .chat-input {
-            padding: 20px;
-            border-top: 1px solid var(--border-glass);
-            display: flex;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.2);
-        }
+.message.received {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-glass);
+}
 
-        .chat-input input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 12px 20px;
-            color: var(--text-primary);
-            font-family: var(--font-family);
-            font-size: 14px;
-            outline: none;
-        }
+.message.sent {
+    align-self: flex-end;
+    background: rgba(0,229,255,0.15);
+    border: 1px solid var(--border-accent);
+}
 
-        .chat-input input:focus {
-            border-color: var(--accent-blue);
-        }
+/* Input */
+.chat-input {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid var(--border-glass);
+    background: rgba(0,0,0,0.2);
+}
 
-        @media (max-width: 768px) {
-            .messaging-layout {
-                flex-direction: column;
-            }
-            .contacts-sidebar {
-                display: none;
-            }
-        }
-    </style>
+.chat-input input {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border-glass);
+    background: rgba(0,0,0,0.5);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+}
+
+.send-btn {
+    padding: 10px 18px;
+}
+
+/* Active nav */
+.nav-links a.active {
+    color: var(--accent-blue);
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Navigation Bar -->
-    <header>
-        <nav>
-            <a href="index.html" class="logo">Sampark</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="messages.html" style="color: var(--accent-blue);"><b>Messages</b></a>
-                <a href="profile.html">Profile</a>
+<header>
+<nav>
+    <a href="index.html" class="logo">Sampark</a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="messages.html" class="active"><b>Messages</b></a>
+        <a href="profile.html">Profile</a>
+    </div>
+</nav>
+</header>
+
+<main>
+<div class="messaging-layout">
+
+    <!-- Contacts -->
+    <aside class="contacts-sidebar">
+        <div class="contacts-header">Recent Conversations</div>
+
+        <div class="contact-item active">
+            <div class="contact-avatar">
+                <img src="assets/post_avatar_1.png">
             </div>
-        </nav>
-    </header>
-
-    <!-- Messaging Layout -->
-    <main>
-        <div class="messaging-layout">
-
-            <!-- Contacts Sidebar -->
-            <aside class="contacts-sidebar">
-                <div class="contacts-header">
-                    <strong>Recent Conversations</strong>
-                </div>
-                <div class="contact-item active">
-                    <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
-                    <div class="contact-info">
-                        <h4>Priya Sharma</h4>
-                        <p>Thanks for the science notes!</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-avatar" style="background-image: url('assets/post_avatar_2.png'); background-size: cover; background-position: center;"></div>
-                    <div class="contact-info">
-                        <h4>Rahul Verma</h4>
-                        <p>Are we still on for the playdate?</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
-                    <div class="contact-info">
-                        <h4>Ms. Kapoor (Teacher)</h4>
-                        <p>Rohan has been doing great!</p>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Chat Area -->
-            <div class="chat-area">
-                <div class="chat-header">
-                    <div class="contact-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
-                    <h4>Priya Sharma</h4>
-                </div>
-
-                <!-- Messages rendered dynamically by JS -->
-                <div class="chat-messages" id="chatMessages"></div>
-
-                <div class="chat-input">
-                    <input type="text" id="msgInput" placeholder="Type a message..." onkeyup="handleMsgKeyup(event)">
-                    <button class="post-btn" style="float: none; margin: 0; padding: 10px 20px;" onclick="handleSendMessage()">Send</button>
-                </div>
+            <div class="contact-info">
+                <h4>Priya Sharma</h4>
+                <p>Thanks for the science notes!</p>
             </div>
-
         </div>
-    </main>
 
-    <footer>
-        <p style="text-align: center; padding: 20px; color: #666; font-size: 13px;">© 2026 Sampark. All rights reserved.</p>
-    </footer>
+        <div class="contact-item">
+            <div class="contact-avatar">
+                <img src="assets/post_avatar_2.png">
+            </div>
+            <div class="contact-info">
+                <h4>Rahul Verma</h4>
+                <p>Hey there!</p>
+            </div>
+        </div>
 
-    <script src="script.js"></script>
+        <div class="contact-item">
+            <div class="contact-avatar">
+                <img src="assets/user_avatar.png">
+            </div>
+            <div class="contact-info">
+                <h4>Ms. Kapoor (Teacher)</h4>
+                <p>Rohan has been doing great!</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Chat -->
+    <div class="chat-area">
+        <div class="chat-header">
+            <!-- ✅ IMPORTANT: THIS is controlled by JS -->
+            <div class="contact-avatar">
+                <img id="chatAvatar" src="assets/post_avatar_1.png">
+            </div>
+            <h4>Priya Sharma</h4>
+        </div>
+
+        <div class="chat-messages" id="chatMessages"></div>
+
+        <div class="chat-input">
+            <input type="text" id="msgInput" placeholder="Type a message..." onkeyup="handleMsgKeyup(event)">
+            <button class="post-btn send-btn" onclick="handleSendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
+</main>
+
+<footer>
+<p style="text-align:center; padding:20px; color:#666; font-size:13px;">
+© 2026 Sampark. All rights reserved.
+</p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>

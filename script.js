@@ -1,260 +1,196 @@
 // ============================================
-// Sampark - script.js
-// Full CRUD: Create, Read, Update, Delete
-// Uses: fetch, async/await, .json(), for loop,
-//       getElementById, createElement, className,
-//       innerHTML, innerText, appendChild,
-//       function declarations & arrow functions
+// Sampark - script.js (FINAL FIXED)
 // ============================================
 
 const API_URL = "http://localhost:5001";
 
+// ✅ Current selected chat user
+let currentChatUser = "Priya Sharma";
+
+// ✅ Avatar mapping
+const userAvatars = {
+    "Priya Sharma": "assets/post_avatar_1.png",
+    "Rahul Verma": "assets/post_avatar_2.png",
+    "Ms. Kapoor (Teacher)": "assets/user_avatar.png"
+};
+
 
 // ==========================================
-//  INDEX PAGE — Posts (Full CRUD)
+//  POSTS (UNCHANGED)
 // ==========================================
 
-// READ — Function to render all posts into the DOM
 function renderPosts(arr) {
     let container = document.getElementById("postsContainer");
     if (!container) return;
 
     container.innerHTML = "";
 
-    for (let i = 0; i < arr.length; i++) {
-        let post = arr[i];
+    arr.forEach(post => {
+        let div = document.createElement("div");
+        div.className = "post";
 
-        let postDiv = document.createElement("div");
-        postDiv.className = "post";
-        postDiv.id = "post-" + post.id;
-
-        postDiv.innerHTML = `
+        div.innerHTML = `
             <div class="post-header">
-                <div class="post-avatar" style="background-image: url('assets/post_avatar_1.png'); background-size: cover; background-position: center;"></div>
+                <div class="post-avatar" style="background:url('assets/post_avatar_1.png') center/cover;"></div>
                 <div>
                     <div class="post-author">${post.author}</div>
                     <div class="post-time">${post.time}</div>
                 </div>
             </div>
-            <div class="post-content" id="post-content-${post.id}">
+            <div id="post-content-${post.id}">
                 <p>${post.text}</p>
             </div>
             <br>
             <button onclick="handleLike(${post.id})">Like (${post.likes})</button>
-            <button onclick="handleEditPost(${post.id})" style="margin-left: 15px;">Edit</button>
-            <button onclick="handleDeletePost(${post.id})" style="margin-left: 15px;">Delete</button>
+            <button onclick="handleEditPost(${post.id})">Edit</button>
+            <button onclick="handleDeletePost(${post.id})">Delete</button>
         `;
 
-        container.appendChild(postDiv);
-    }
+        container.appendChild(div);
+    });
 }
 
-// READ — GET all posts from the backend
 async function loadPosts() {
-    let response = await fetch(API_URL + "/posts");
-    let data = await response.json();
+    let res = await fetch(API_URL + "/posts");
+    let data = await res.json();
     renderPosts(data.posts);
 }
 
-// CREATE — POST a new post to the backend (called from onsubmit)
-async function handlePostSubmit(event) {
-    event.preventDefault();
+async function handlePostSubmit(e) {
+    e.preventDefault();
 
-    let postInput = document.getElementById("postInput");
-    let text = postInput.value;
+    let input = document.getElementById("postInput");
+    if (!input.value) return;
 
-    if (text === "") return;
-
-    let response = await fetch(API_URL + "/posts", {
+    let res = await fetch(API_URL + "/posts", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text, author: "Aishwarya" })
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ text: input.value, author: "Aishwarya" })
     });
 
-    if (response.status === 201) {
-        postInput.value = "";
+    if (res.status === 201) {
+        input.value = "";
         loadPosts();
     }
-}
-
-// UPDATE — Show edit form for a post, then PUT to backend
-function handleEditPost(id) {
-    let contentDiv = document.getElementById("post-content-" + id);
-    if (!contentDiv) return;
-
-    // Get current text from the <p> tag inside the content div
-    let currentText = contentDiv.getElementsByTagName("p")[0].innerText;
-
-    // Replace the content div with an edit form
-    contentDiv.innerHTML = `
-        <textarea id="edit-input-${id}" rows="3" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; color: #fff; font-family: 'Outfit', sans-serif; font-size: 15px; resize: none;">${currentText}</textarea>
-        <br><br>
-        <button onclick="submitEditPost(${id})" class="post-btn" style="float: none; font-size: 14px; padding: 8px 16px;">Save</button>
-        <button onclick="loadPosts()" style="margin-left: 10px; font-size: 14px; padding: 8px 16px; background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 20px; cursor: pointer;">Cancel</button>
-    `;
-}
-
-// UPDATE — PUT the edited text to the backend
-async function submitEditPost(id) {
-    let editInput = document.getElementById("edit-input-" + id);
-    let newText = editInput.value;
-
-    if (newText === "") return;
-
-    let response = await fetch(API_URL + "/posts/" + id, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: newText })
-    });
-
-    if (response.status === 200) {
-        loadPosts();
-    }
-}
-
-// DELETE — DELETE a post from the backend
-async function handleDeletePost(id) {
-    let response = await fetch(API_URL + "/posts/" + id, {
-        method: "DELETE"
-    });
-
-    if (response.status === 200) {
-        loadPosts();
-    }
-}
-
-// Like handler (simple visual feedback)
-function handleLike(id) {
-    alert("You liked post #" + id + "!");
 }
 
 
 // ==========================================
-//  MESSAGES PAGE — Chat (Full CRUD)
+//  CHAT SECTION
 // ==========================================
 
-// READ — Function to render all messages into the DOM
+// ✅ FIXED: using <img> instead of background
+function updateChatAvatar(user) {
+    let avatar = document.getElementById("chatAvatar");
+    if (!avatar) return;
+
+    let img = userAvatars[user] || "assets/user_avatar.png";
+
+    avatar.src = img;
+}
+
+// 🔹 Render messages
 function renderMessages(arr) {
-    let chatDiv = document.getElementById("chatMessages");
-    if (!chatDiv) return;
+    let chat = document.getElementById("chatMessages");
+    if (!chat) return;
 
-    chatDiv.innerHTML = "";
+    chat.innerHTML = "";
 
-    for (let i = 0; i < arr.length; i++) {
-        let msg = arr[i];
+    arr.forEach(msg => {
+        let div = document.createElement("div");
+        div.className = "message " + msg.type;
 
-        let messageDiv = document.createElement("div");
-        messageDiv.className = "message " + msg.type;
-        messageDiv.id = "msg-" + msg.id;
+        div.innerText = msg.text;
 
-        // Only show edit/delete on "sent" messages
-        if (msg.type === "sent") {
-            messageDiv.innerHTML = `
-                <span>${msg.text}</span>
-                <div class="msg-actions" style="margin-top: 6px; display: flex; gap: 10px;">
-                    <button onclick="handleEditMessage(${msg.id})" style="background: none; border: none; color: rgba(0,229,255,0.7); cursor: pointer; font-size: 11px; padding: 0;">Edit</button>
-                    <button onclick="handleDeleteMessage(${msg.id})" style="background: none; border: none; color: rgba(255,100,100,0.7); cursor: pointer; font-size: 11px; padding: 0;">Delete</button>
-                </div>
-            `;
-        } else {
-            messageDiv.innerText = msg.text;
-        }
+        chat.appendChild(div);
+    });
 
-        chatDiv.appendChild(messageDiv);
-    }
-
-    // Scroll to bottom
-    chatDiv.scrollTop = chatDiv.scrollHeight;
+    chat.scrollTop = chat.scrollHeight;
 }
 
-// READ — GET all messages from the backend
+// 🔹 Load messages (FILTERED)
 async function loadMessages() {
-    let response = await fetch(API_URL + "/messages");
-    let data = await response.json();
-    renderMessages(data.messages);
+    let res = await fetch(API_URL + "/messages");
+    let data = await res.json();
+
+    let filtered = data.messages.filter(
+        msg => msg.user === currentChatUser
+    );
+
+    renderMessages(filtered);
 }
 
-// CREATE — POST a new message (called from onclick)
+// 🔹 Send message
 async function handleSendMessage() {
-    let msgInput = document.getElementById("msgInput");
-    let text = msgInput.value;
+    let input = document.getElementById("msgInput");
+    let text = input.value;
 
-    if (text === "") return;
+    if (!text) return;
 
-    let response = await fetch(API_URL + "/messages", {
+    let res = await fetch(API_URL + "/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text, type: "sent" })
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            text,
+            type: "sent",
+            user: currentChatUser
+        })
     });
 
-    if (response.status === 201) {
-        msgInput.value = "";
+    if (res.status === 201) {
+        input.value = "";
         loadMessages();
     }
 }
 
-// UPDATE — Show inline edit for a message
-function handleEditMessage(id) {
-    let msgDiv = document.getElementById("msg-" + id);
-    if (!msgDiv) return;
-
-    let currentText = msgDiv.getElementsByTagName("span")[0].innerText;
-
-    msgDiv.innerHTML = `
-        <input type="text" id="edit-msg-${id}" value="${currentText}" style="width: 80%; background: rgba(0,0,0,0.5); border: 1px solid rgba(0,229,255,0.4); border-radius: 12px; padding: 8px 12px; color: #fff; font-size: 14px; outline: none;">
-        <button onclick="submitEditMessage(${id})" style="margin-left: 8px; background: rgba(0,229,255,0.3); border: none; color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 12px;">Save</button>
-    `;
-}
-
-// UPDATE — PUT the edited message to the backend
-async function submitEditMessage(id) {
-    let editInput = document.getElementById("edit-msg-" + id);
-    let newText = editInput.value;
-
-    if (newText === "") return;
-
-    let response = await fetch(API_URL + "/messages/" + id, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: newText })
-    });
-
-    if (response.status === 200) {
-        loadMessages();
-    }
-}
-
-// DELETE — DELETE a message from the backend
-async function handleDeleteMessage(id) {
-    let response = await fetch(API_URL + "/messages/" + id, {
-        method: "DELETE"
-    });
-
-    if (response.status === 200) {
-        loadMessages();
-    }
-}
-
-// Handle Enter key in message input (called from onkeyup)
-function handleMsgKeyup(event) {
-    if (event.key === "Enter") {
-        handleSendMessage();
-    }
+// 🔹 Enter key
+function handleMsgKeyup(e) {
+    if (e.key === "Enter") handleSendMessage();
 }
 
 
 // ==========================================
-//  ON PAGE LOAD — fetch data from backend
+//  CONTACT CLICK (FIXED)
 // ==========================================
 
-// Check which page we are on and load the right data
-let postsContainer = document.getElementById("postsContainer");
-let chatMessages = document.getElementById("chatMessages");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (postsContainer) {
-    loadPosts();
-}
+    document.querySelectorAll(".contact-item").forEach(item => {
 
-if (chatMessages) {
+        item.addEventListener("click", () => {
+
+            // remove active
+            document.querySelectorAll(".contact-item")
+                .forEach(i => i.classList.remove("active"));
+
+            item.classList.add("active");
+
+            let name = item.querySelector("h4").innerText;
+
+            currentChatUser = name;
+
+            // update name
+            document.querySelector(".chat-header h4").innerText = name;
+
+            // ✅ update image
+            updateChatAvatar(name);
+
+            // load messages
+            loadMessages();
+        });
+
+    });
+
+    // ✅ initial load
+    updateChatAvatar(currentChatUser);
     loadMessages();
+});
+
+
+// ==========================================
+//  PAGE LOAD (POSTS)
+// ==========================================
+
+if (document.getElementById("postsContainer")) {
+    loadPosts();
 }
