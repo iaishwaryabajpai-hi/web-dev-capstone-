@@ -7,17 +7,6 @@ const API_URL = (window.location.hostname === "localhost" || window.location.hos
     ? "http://localhost:5001/api" 
     : "/api";
 
-// --- Authentication Check ---
-if (!localStorage.getItem("sampark_token") && !window.location.pathname.includes("login.html")) {
-    window.location.href = "login.html";
-}
-
-function logout() {
-    localStorage.removeItem("sampark_token");
-    localStorage.removeItem("sampark_user");
-    window.location.href = "login.html";
-}
-
 // ✅ Current selected chat user
 let currentChatUser = "Priya Sharma";
 
