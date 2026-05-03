@@ -26,7 +26,7 @@ BUCKET_NAME = "post-images"
 
 # ---- Base Route ----
 
-@app.route("/")
+@app.route("/api/")
 def base_app():
     return jsonify({"status": "Sampark API is running with Supabase!"})
 
@@ -35,7 +35,7 @@ def base_app():
 #  IMAGE UPLOAD
 # ==========================================
 
-@app.route("/upload", methods=["POST"])
+@app.route("/api/upload", methods=["POST"])
 def upload_image():
     """Upload an image to Supabase Storage and return the public URL."""
     try:
@@ -76,7 +76,7 @@ def upload_image():
 
 # ---- READ all posts ----
 
-@app.route("/posts", methods=["GET"])
+@app.route("/api/posts", methods=["GET"])
 def get_all_posts():
     try:
         response = supabase.table("posts").select("*").order("id", desc=True).execute()
@@ -87,7 +87,7 @@ def get_all_posts():
 
 # ---- CREATE a new post ----
 
-@app.route("/posts", methods=["POST"])
+@app.route("/api/posts", methods=["POST"])
 def create_post():
     try:
         data = request.get_json()
@@ -112,7 +112,7 @@ def create_post():
 
 # ---- UPDATE a post ----
 
-@app.route("/posts/<int:post_id>", methods=["PUT"])
+@app.route("/api/posts/<int:post_id>", methods=["PUT"])
 def update_post(post_id):
     try:
         data = request.get_json()
@@ -142,7 +142,7 @@ def update_post(post_id):
 
 # ---- LIKE a post ----
 
-@app.route("/posts/<int:post_id>/like", methods=["PUT"])
+@app.route("/api/posts/<int:post_id>/like", methods=["PUT"])
 def like_post(post_id):
     try:
         # Fetch current likes
@@ -161,7 +161,7 @@ def like_post(post_id):
 
 # ---- DELETE a post ----
 
-@app.route("/posts/<int:post_id>", methods=["DELETE"])
+@app.route("/api/posts/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
     try:
         supabase.table("posts").delete().eq("id", post_id).execute()
@@ -176,7 +176,7 @@ def delete_post(post_id):
 
 # ---- READ all messages ----
 
-@app.route("/messages", methods=["GET"])
+@app.route("/api/messages", methods=["GET"])
 def get_all_messages():
     try:
         user = request.args.get("user")
@@ -194,7 +194,7 @@ def get_all_messages():
 
 # ---- CREATE a new message ----
 
-@app.route("/messages", methods=["POST"])
+@app.route("/api/messages", methods=["POST"])
 def create_message():
     try:
         data = request.get_json()
@@ -216,7 +216,7 @@ def create_message():
 
 # ---- UPDATE a message ----
 
-@app.route("/messages/<int:msg_id>", methods=["PUT"])
+@app.route("/api/messages/<int:msg_id>", methods=["PUT"])
 def update_message(msg_id):
     try:
         data = request.get_json()
@@ -240,7 +240,7 @@ def update_message(msg_id):
 
 # ---- DELETE a message ----
 
-@app.route("/messages/<int:msg_id>", methods=["DELETE"])
+@app.route("/api/messages/<int:msg_id>", methods=["DELETE"])
 def delete_message(msg_id):
     try:
         supabase.table("messages").delete().eq("id", msg_id).execute()
@@ -255,7 +255,7 @@ def delete_message(msg_id):
 
 # ---- GET profile ----
 
-@app.route("/profile", methods=["GET"])
+@app.route("/api/profile", methods=["GET"])
 def get_profile():
     try:
         response = supabase.table("profiles").select("*").limit(1).execute()
@@ -268,7 +268,7 @@ def get_profile():
 
 # ---- PUT (update) profile ----
 
-@app.route("/profile/<int:profile_id>", methods=["PUT"])
+@app.route("/api/profile/<int:profile_id>", methods=["PUT"])
 def update_profile(profile_id):
     try:
         data = request.get_json()
