@@ -50,7 +50,18 @@
                     <br>
                     <form id="postForm" onsubmit="handlePostSubmit(event)">
                         <textarea id="postInput" rows="3" placeholder="What's on your mind regarding your child's learning?"></textarea>
-                        <button type="submit" class="post-btn">Post</button>
+                        <div style="display:flex; align-items:center; gap:12px; margin-top:10px;">
+                            <label for="postImage" style="cursor:pointer; padding:8px 16px; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.3); color:#ccc; font-size:13px; display:inline-flex; align-items:center; gap:6px;">
+                                📷 Add Photo
+                            </label>
+                            <input type="file" id="postImage" accept="image/*" style="display:none;" onchange="previewImage(this)">
+                            <span id="fileName" style="color:#888; font-size:12px;"></span>
+                            <button type="submit" class="post-btn" style="margin-left:auto;">Post</button>
+                        </div>
+                        <div id="imagePreview" style="margin-top:10px; display:none;">
+                            <img id="previewImg" style="max-width:100%; max-height:200px; border-radius:12px; border:1px solid rgba(255,255,255,0.1);">
+                            <button type="button" onclick="removePreview()" style="display:block; margin-top:6px; background:none; border:none; color:#ff5555; cursor:pointer; font-size:12px;">✕ Remove image</button>
+                        </div>
                     </form>
                 </div>
 
