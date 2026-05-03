@@ -175,6 +175,7 @@
                 <a href="index.html">Home</a>
                 <a href="messages.html">Messages</a>
                 <a href="profile.html" style="color: var(--accent-blue);"><b>Profile</b></a>
+                <a href="#" onclick="logout()" style="color: #ff5555; font-weight: 600; margin-left: 10px;">Log Out</a>
             </div>
         </nav>
     </header>
@@ -306,6 +307,17 @@
             ? "http://localhost:5001/api" 
             : "/api";
         var currentProfileId = null;
+
+        // --- Authentication Check ---
+        if (!localStorage.getItem("sampark_token")) {
+            window.location.href = "login.html";
+        }
+
+        function logout() {
+            localStorage.removeItem("sampark_token");
+            localStorage.removeItem("sampark_user");
+            window.location.href = "login.html";
+        }
 
         // READ — Load profile from Supabase
         async function loadProfile() {

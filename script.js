@@ -7,6 +7,17 @@ const API_URL = (window.location.hostname === "localhost" || window.location.hos
     ? "http://localhost:5001/api" 
     : "/api";
 
+// --- Authentication Check ---
+if (!localStorage.getItem("sampark_token") && !window.location.pathname.includes("login.html")) {
+    window.location.href = "login.html";
+}
+
+function logout() {
+    localStorage.removeItem("sampark_token");
+    localStorage.removeItem("sampark_user");
+    window.location.href = "login.html";
+}
+
 // ✅ Current selected chat user
 let currentChatUser = "Priya Sharma";
 
@@ -145,9 +156,10 @@ async function handlePostSubmit(e) {
 
     // Now create the post
     try {
+        let authorName = localStorage.getItem("sampark_user") || "Anonymous";
         let postBody = {
             text: textVal,
-            author: "Aishwarya"
+            author: authorName
         };
 
         if (imageUrl) {
