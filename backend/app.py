@@ -31,57 +31,6 @@ def base_app():
     return jsonify({"status": "Sampark API is running with Supabase!"})
 
 
-# ==========================================
-#  AUTHENTICATION
-# ==========================================
-
-@app.route("/api/signup", methods=["POST"])
-def signup():
-    try:
-        data = request.get_json()
-        email = data.get("email")
-        password = data.get("password")
-        name = data.get("name", "User")
-
-        if not email or not password:
-            return jsonify({"error": "Email and password are required"}), 400
-
-        # Sign up with Supabase Auth
-        res = supabase.auth.sign_up({
-            "email": email,
-            "password": password,
-            "options": {
-                "data": {"name": name}
-            }
-        })
-        
-        return jsonify({"message": "User created successfully", "session": res.session.model_dump() if res.session else None}), 201
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
-
-@app.route("/api/login", methods=["POST"])
-def login():
-    try:
-        data = request.get_json()
-        email = data.get("email")
-        password = data.get("password")
-
-        if not email or not password:
-            return jsonify({"error": "Email and password are required"}), 400
-
-        # Log in with Supabase Auth
-        res = supabase.auth.sign_in_with_password({
-            "email": email,
-            "password": password
-        })
-        
-        return jsonify({"token": res.session.access_token, "user": res.user.model_dump()}), 200
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 401
-
 
 # ==========================================
 #  IMAGE UPLOAD
